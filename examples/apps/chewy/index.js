@@ -8,19 +8,12 @@ app.launch(function(req, res) {
   var prompt = 'What tell you about the war in the stars I can?';
   res.say(prompt).reprompt(prompt).shouldEndSession(false);
 });
-
-/*'describe {Page}',
-    'describe a {Page}',
-    'tell me about {Page}',
-    'who is {Page}',
-    'what is {Page}'
-    */
     
 app.intent('wikia_subject', {
   'slots': {
     'SUBJECT': 'LIST_OF_PAGES'
   },
-  'utterances': ['{|tell me|tell|describe} {|who is|what is|where is|about|a|the} {-|SUBJECT}']
+  'utterances': ['{|please|can you} {|tell me|tell|describe} {|who was|what was|where was|who is|what is|where is|about|a|the} {-|SUBJECT}']
 },
   function(req, res) {
     var sSubject = req.slot('SUBJECT');
@@ -32,7 +25,6 @@ app.intent('wikia_subject', {
     } else {
       var oWikiaHelper = new WikiaHelper('starwars');
       oWikiaHelper.getLucky(sSubject).then(function(iID) {
-        //console.log(iID);
         if(iID !== false){
           oWikiaHelper.getArticle(iID).then(function(sParagraph) {
             console.log("sParagraph", sParagraph);
@@ -41,20 +33,48 @@ app.intent('wikia_subject', {
           }).catch(function(err) {
             console.log("err", err.statusCode);
             var prompt = 'I could not find the droid you are looking for.';
-            //https://github.com/matt-kruse/alexa-app/blob/master/index.js#L171
             res.say(prompt).reprompt(reprompt).shouldEndSession(false).send();
           });
         }
       }).catch(function(err) {
         console.log(err.statusCode);
         var prompt = 'I could not find the droid you are looking for.';
-        //https://github.com/matt-kruse/alexa-app/blob/master/index.js#L171
         res.say(prompt).reprompt(reprompt).shouldEndSession(false).send();
       });
       return false;
     }
   }
 );
+
+app.intent('wikia_list', {
+  'slots': {
+    'SUBJECT': 'LIST_OF_PAGES'
+  },
+  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|SUBJECT}']
+},
+  function(req, res) {
+    var sSubject = req.slot('SUBJECT');
+    var reprompt = 'What can chewie find for you.';
+    if (_.isEmpty(sSubject)) {
+      var prompt = 'I didn\'t hear that. Tell me what I can list for you.';
+      res.say(prompt).reprompt(reprompt).shouldEndSession(false);
+      return true;
+    } else {
+      var oWikiaHelper = new WikiaHelper('starwars');
+      oWikiaHelper.getList(sSubject).then(function(sParagraph) {
+        console.log("sParagraph", sParagraph);
+        res.say(sParagraph).send();
+        return sParagraph;
+      }).catch(function(err) {
+        console.log(err.statusCode);
+        var prompt = 'I could not find the droids you are looking for.';
+        res.say(prompt).reprompt(reprompt).shouldEndSession(false).send();
+      });
+      return false;
+    }
+  }
+);
+
 
 //hack to support custom utterances in utterance expansion string
 console.log(app.utterances().replace(/\{\-\|/g, '{'));

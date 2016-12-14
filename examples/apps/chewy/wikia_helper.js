@@ -64,6 +64,21 @@ WikiaHelper.prototype.getLucky = function(sSubject) {
   );
 };
 
+WikiaHelper.prototype.getList = function(sSubject) {
+  return this.wikia.getArticlesList({category:sSubject}).then(
+    function(oResponse) {
+      console.log('success - getList received info for ' + sSubject);
+      if(oResponse.items.length>0){
+        var sParagraph = oResponse.items.map(function(oItem){
+          return oItem.title;
+        }).slice(0, 100).join(", ");
+        return (sParagraph);
+      }
+      return false;
+    }
+  );
+};
+
 
 module.exports = WikiaHelper;
 
