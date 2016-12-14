@@ -1,9 +1,11 @@
 # Chewy
 ## Alexa Wookiepeedia Info Skill
 
+Answers your Star Wars questions using Wookiepedia.
+
 This project demonstrates how to build an Alexa skill - no Amazon Echo required! It's a useful project to learn the basics of creating Alexa Skills.
 
-It implements Big Nerd Ranch's [Airport Info app](https://github.com/bignerdranch/alexa-airportinfo), which tells you details about delays and weather conditions at a particular airport in response to an airport code.
+It uses Gabriel Pedro's [node-wikia](https://github.com/gpedro/node-wikia) , which fetches data from Wookiepeedia and can be remixed to work with any of the 360,000+ [wikia](http://wikia.com/) fandom sites.
 
 
 ![](http://img3.wikia.nocookie.net/__cb23/starwars/images/8/89/Wiki-wordmark.png)
