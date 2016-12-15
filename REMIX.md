@@ -23,7 +23,8 @@ var sWikiaName = 'your_fav_wikia';
 Visit [https://yourprojectname.gomix.me/wikia?words](https://yourprojectname.gomix.me/wikia?words) this will print out the popular pages on your wikia and copy those into LIST_OF_PAGES.txt
 
 *   #### 4\. Make Alexa ask your questions the way you wat
-In 'examples/apps/wikia/index.js' use CTRL+f an findthe word prompt (an reprompt) to find all the places we set the textfor a question and change it so it maks sense for your fandom (p.
+In 'examples/apps/wikia/index.js' use CTRL+f and find the word 'prompt' (and 'reprompt') to find all the places we set the text for a question and change it so it maks sense for your fandom ).
+
 ```javascript
 var prompt = 'I didn\'t hear that. Tell me what I can find for you.';
 ```
