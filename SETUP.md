@@ -1,6 +1,7 @@
 ## What You'll Need
 
 *   An [Amazon Developer Account](https://developer.amazon.com)
+*   A Fandom you care about. And the name of the [wikia](http://fandom.wikia.com/explore) that covers it.
 
 ![](https://cdn.hyperdev.com/681cc882-059d-4b05-a1f6-6cbc099cc79c%2FalexaBriefingSkill.png)
 

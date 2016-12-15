@@ -18,3 +18,6 @@ To get started you need to:
 - Set up your Alexa skill in your Amazon developer account.
 
 For more detailed setup instructions, see `setup.md`.
+
+## EduMake
+This App is here to show you how easy it is to make your own digital solutions. It is part of [EduMake](https://edumake.org/)'s mission to help everyone learn how to make your own gadgets.
