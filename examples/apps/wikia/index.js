@@ -1,9 +1,10 @@
 'use strict';
 var _ = require('lodash');
 var Alexa = require('alexa-app');
-var app = new Alexa.app('chewy');
+var app = new Alexa.app('wikia');
 var WikiaHelper = require('./wikia_helper');
 
+//Which Wikia are you using????
 var sWikiaName = 'starwars';
 
 app.launch(function(req, res) {
