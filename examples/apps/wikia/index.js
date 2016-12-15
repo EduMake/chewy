@@ -36,6 +36,8 @@ app.intent('wikia_subject', {
           oWikiaHelper.getArticle(iID).then(function(sParagraph) {
             console.log("sParagraph", sParagraph);
             res.say(sParagraph).send();
+            //todo add credits http://starwars.wikia.com/wiki/Wookieepedia:Copyrights#Users.27_rights_and_obligations_section
+            
             return sParagraph;
           }).catch(function(err) {
             console.log("err", err.statusCode);
