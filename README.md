@@ -19,7 +19,9 @@ It uses Gabriel Pedro's [node-wikia](https://github.com/gpedro/node-wikia) , whi
 To get started you need to:
 - Set up your Alexa skill in your Amazon developer account.
 
-For more detailed setup instructions, see `setup.md`.
+For simple instructions to buil you own Alexa Wikia Skill, see `REMIX.md`.
+
+For more detailed setup instructions and how it works, see `SETUP.md`.
 
 ## EduMake
 This App is here to show you how easy it is to make your own digital solutions. It is part of [EduMake](https://edumake.org/)'s mission to help everyone learn how to make your own gadgets.

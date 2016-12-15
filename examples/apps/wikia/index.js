@@ -7,6 +7,10 @@ var WikiaHelper = require('./wikia_helper');
 //Which Wikia are you using????
 var sWikiaName = 'starwars';
 
+app.getHelper = function(){
+  return new WikiaHelper(sWikiaName);
+}
+
 app.launch(function(req, res) {
   var prompt = 'What tell you about the war in the stars I can?';
   res.say(prompt).reprompt(prompt).shouldEndSession(false);

@@ -39,7 +39,7 @@ So what we need to do here is make Alexa aware of your app, and make it accessib
     
 *   #### 2\. Interaction Model
 
-    You want to specify your Intent Schema and Sample Utterances. Thankfully, this is made easy by alexa-app - there are end-points for the detail already. For Intent Schema copy and paste the output given at '[/chewy?schema](https://chewy.gomix.me/chewy?schema)'. Do the same for '[/chewy?utterances](https://chewy.gomix.me/chewy?utterances)', pasting that output into 'Sample Utterances.' Lastly, select 'Add Slot Type' and enter 'FAACODES' under 'Enter Type'. Under 'Enter Values', copy and paste all of the values from the `FAACODES.txt` file in your project.
+    You want to specify your Intent Schema and Sample Utterances. Thankfully, this is made easy by alexa-app - there are end-points for the detail already. For Intent Schema copy and paste the output given at '[/wikia?schema](https://chewy.gomix.me/wikia?schema)'. Do the same for '[/wikia?utterances](https://chewy.gomix.me/wikia?utterances)', pasting that output into 'Sample Utterances.' Lastly, select 'Add Slot Type' and enter 'FAACODES' under 'Enter Type'. Under 'Enter Values', copy and paste all of the values from the `FAACODES.txt` file in your project.
     
     ![Screen Shot 2016-08-23 at 21.31.07](https://hyperdev.wpengine.com/wp-content/uploads/2016/08/Screen-Shot-2016-08-23-at-21.31.07-1024x339.png)
 

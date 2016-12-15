@@ -101,6 +101,14 @@ var appServer = function(config) {
 						else if (typeof req.param('utterances')!="undefined") {
 							res.set('Content-Type', 'text/plain').send(app.utterances());
 						}
+						else if (typeof req.param('words')!="undefined") {
+						  var oWikiaHelper = app.getHelper();
+              oWikiaHelper.getWords().then(function(sParagraph) {
+                //console.log("sParagraph", sParagraph);
+                res.set('Content-Type', 'text/plain').send(sParagraph);
+                //return sParagraph;
+              });
+						}
 						else {
 							res.render('test',{"app":app,"schema":app.schema(),"utterances":app.utterances(),"intents":app.intents});
 						}
