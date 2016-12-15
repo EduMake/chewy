@@ -1,45 +1,44 @@
 501st Legion
 Aayla Secura
 Abeloth
+Aftermath
+Aftermath: Life Debt
+Ahch-To
 Ahsoka Tano
 Alderaan
-All Terrain Armored Cargo Transport
 All Terrain Armored Transport
-Alliance Fleet
 Alliance to Restore the Republic
 Anakin Skywalker
 Arcann
 Armitage Hux
 Asajj Ventress
-Bail Organa
-Bail Prestor Organa
 Barriss Offee
+Bastila Shan
 Battle of Endor
 Battle of Jakku
 Battle of Yavin
-Baze Malbus
 Ben Skywalker
-Bendu
+Bloodline (novel)
 Boba Fett
 Bothan
 CC-2224
+CC-3636
+CC-5576-39
+CT-5555
+CT-6116
 CT-7567
 Cad Bane
 Cade Skywalker
 Canon
-Canon articles
-Cassian Andor
-Catalyst
 Chewbacca
 Chirrut Îmwe
+Chiss
 Chosen One
 Clone Wars
 Clone trooper
 Code of the Sith
 Confederacy of Independent Systems
 Coruscant
-DS-1 Orbital Battle Station
-Dark Jedi
 Dark side of the Force
 Darksaber (lightsaber)
 Darth
@@ -52,77 +51,77 @@ Darth Maul
 Darth Nihilus
 Darth Plagueis
 Darth Sidious
+Darth Talon
 Darth Tenebrous
+Darth Traya
 Darth Vader's armor
 Darth Zannah
-Dathomir
 Dathomirian
 Death Star
 Death Star II
-Death Star plans
-Death Trooper
+Death trooper
+Dengar
 Depa Billaba
 Dooku
-Emperor's Royal Guard
+Duel of Destiny
 Eternal Empire
-Executor
+Exar Kun
 Ezra Bridger
 Finn
+First Jedi Temple
 First Order
-Force ghost
 Force power
-Form VII
-Galactic Civil War
 Galactic Empire
 Galactic Republic
 Galactic Standard Calendar
-Galen Erso
 Galen Marek
 Gallius Rax
-Geonosis
-Ghost
-Ghosts of Geonosis, Pt. 1
-Ghosts of Geonosis, Pt. 2
+Grand Army of the Republic
 Gray Jedi
 Great Jedi Purge
 Grievous
-HMP droid gunship
+HK-47
 Han Solo
-Hera Syndulla
+HanSolo-Fathead.png
+Hutt
 Imperial I-class Star Destroyer
 Imperial Navy
-Imperial-class Star Destroyer
+Inhabited Beggar's Canyon.png
 Inquisitorius
 Jabba Desilijic Tiure
+Jaina Solo Fel
 Jakku
 Jango Fett
 Jar Jar Binks
 Jawa
-Jedha
+Je'daii Order
 Jedi
 Jedi Code
 Jedi High Council
 Jedi Master
 Jedi Order
+Jedi Sentinel
 Jizz
 Jyn Erso
-K-2SO
 Kaleesh
-Kallus
 Kanan Jarrus
 Kessel Run
 Kit Fisto
+Kix
 Knights of Ren
 Korriban
 Kyber crystal
 Kyle Katarn
 Kylo Ren
+LEGO Star Wars: The Freemaker Adventures
+Lando Calrissian
 Leia Organa
 Leia Organa Solo
 Lightsaber
 Lightsaber combat
 Lightsaber crystal
 List of books
+List of planets
 Lor San Tekka
 Luke Skywalker
 Luminara Unduli
@@ -130,48 +129,48 @@ Mace Windu
 Mandalore
 Mandalorian
 Mara Jade Skywalker
-Mas Amedda
 Maz Kanata
 Meetra Surik
 Midi-chlorian
 Millennium Falcon
 Mitth'raw'nuruodo
 Mon Mothma
-Naboo
+Naare
 New Republic
 Nightsisters
 Obi-Wan Kenobi
-Opening crawl
+Old Republic era
 Order 66
 Order of the Sith Lords
 Orson Krennic
-Owen Lars
 Padawan
 Padmé Amidala
 Palpatine
 Phasma
 Plo Koon
 Poe Dameron
-Pre Vizsla
+Pong Krell
 Qui-Gon Jinn
 Quinlan Vos
+R2-D2
+Rae Sloane
 Rakata
-Ratts Tyerell
+Resistance
 Resurgent-class Star Destroyer
 Revan
 Rey
-Rogue One
-Rogue One (squad)
 Rogue One: A Star Wars Story
 Rule of Two
 Sabine Wren
 Sarlacc
+Satele Shan
 Satine Kryze
 Savage Opress
 Saw Gerrera
-Scarif
-Shmi Skywalker Lars
-Shoretrooper
+Sentient species
+Seventh Sister
+Shaak Ti
+Sidon Ithano
 Sifo-Dyas
 Sith
 Sith (species)
@@ -179,33 +178,36 @@ Sith Lord
 Skywalker family
 Snoke
 Star Destroyer
-Star Wars Anthology Series
+Star Wars (Marvel 2015)
 Star Wars Legends
 Star Wars Rebels
 Star Wars Rebels Season Three
-Star Wars: Episode I The Phantom Menace
-Star Wars: Episode III Revenge of the Sith
+Star Wars Rebels Season Two
+Star Wars: Darth Vader (Marvel)
+Star Wars: Episode 1 The Phantom Menace
+Star Wars: Episode 3 Revenge of the Sith
+Star Wars: Episode 8
 Star Wars: Episode IV A New Hope
-Star Wars: Episode VI Return of the Jedi
 Star Wars: Episode VII The Force Awakens
-Star Wars: Episode VIII
+Star Wars: Knights of the Old Republic
+Star Wars: Knights of the Old Republic 2: The Sith Lords
 Star Wars: The Clone Wars (TV series)
 Star Wars: The Old Republic
-Star Wars: The Old Republic: Knights of the Eternal Throne
 Star Wars: The Old Republic: Knights of the Fallen Empire
 Starkiller Base
+Steps Into Shadow
 Stormtrooper
+Stormtrooper (First Order)
 Stormtrooper variants
 Super Star Destroyer
 T-65 X-wing starfighter
-TIE
-TIE striker
+TIE/LN starfighter
 Talzin
 Tatooine
 The Essential Guide to Alien Species
 The Force
 The Grand Inquisitor
-Theft of the Death Star plans
+The galaxy
 Thrawn
 Timeline of Legends books
 Timeline of canon books
@@ -215,14 +217,9 @@ Timeline of galactic history
 Togruta
 Tusken Raider
 Twi'lek
-UT-60D
-Untitled Han Solo Anthology film
+Tython
 Valkorion
-Vaylin
 Venator-class Star Destroyer
-Visions and Voices
-Vitiate
-Warhead (episode)
 Wedge Antilles
 Wilhuff Tarkin
 Wookiee

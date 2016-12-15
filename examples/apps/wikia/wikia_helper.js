@@ -81,13 +81,15 @@ WikiaHelper.prototype.getList = function(sSubject) {
 
 WikiaHelper.prototype.getWords = function() {
   //return this.wikia.getArticlesPopular({limit:10}).then(
-  return this.wikia.getArticlesMostViewed().then(
+  return this.wikia.getArticlesMostViewed({limit:250}).then(
     function(oResponse) {
       if(oResponse.items.length>0){
         var sParagraph = oResponse.items.map(function(oItem){
           var TitleParts =  oItem.title.split("/");
-          return TitleParts[0];
-        }).join("\n");
+          return TitleParts[0].trim();
+        })
+        .filter(function(item, i, ar){ return ar.indexOf(item) === i; })
+        .sort().join("\n");
         return (sParagraph);
       }
       return false;

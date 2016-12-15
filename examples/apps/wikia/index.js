@@ -34,8 +34,14 @@ app.intent('wikia_subject', {
       oWikiaHelper.getLucky(sSubject).then(function(iID) {
         if(iID !== false){
           oWikiaHelper.getArticle(iID).then(function(sParagraph) {
-            console.log("sParagraph", sParagraph);
-            res.say(sParagraph).send();
+            //var sParagraph = oArticle.sParagraph;
+            //var sTitle = oArticle.sTitle;
+            //console.log("sParagraph", sParagraph);
+            res.card({
+              "type": "Simple",
+              "title": "Example of the Card Title",
+              "content": sParagraph+'\nThis article is licensed under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported license</a>. It uses material from the <a href="http://starwars.wikia.com/wiki/Palpatine">Wookieepedia article "Palpatine."</a>'
+            }).say(sParagraph).send();
             //todo add credits http://starwars.wikia.com/wiki/Wookieepedia:Copyrights#Users.27_rights_and_obligations_section
             
             return sParagraph;
