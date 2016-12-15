@@ -1,7 +1,9 @@
 # Chewy
 ## Alexa Wookiepeedia Info Skill
 
-Answers your Star Wars questions using Wookiepedia.
+Answers your Star Wars questions using Wookiepedia. The Alexa app is available for free [here - not yet](#)
+
+It is super easy to remix this project to make Alexa answer the worlds questions about your favourite game / movie / TV show etc.
 
 This project demonstrates how to build an Alexa skill - no Amazon Echo required! It's a useful project to learn the basics of creating Alexa Skills. 
 
@@ -13,7 +15,7 @@ It uses Gabriel Pedro's [node-wikia](https://github.com/gpedro/node-wikia) , whi
 ![](https://cdn.gomix.com/681cc882-059d-4b05-a1f6-6cbc099cc79c%2FalexaSkillGIF.gif)
 
 
-## Getting Started
+## Remixing / Getting Started
 To get started you need to:
 - Set up your Alexa skill in your Amazon developer account.
 

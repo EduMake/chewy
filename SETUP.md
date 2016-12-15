@@ -1,7 +1,7 @@
 ## What You'll Need
 
 *   An [Amazon Developer Account](https://developer.amazon.com)
-*   A Fandom you care about. And the name of the [wikia](http://fandom.wikia.com/explore) that covers it.
+*   A Fandom you care about. And the name of the [wikia subdomain](http://fandom.wikia.com/explore) that covers it (that is the word before .wikia.com).
 
 ![](https://cdn.hyperdev.com/681cc882-059d-4b05-a1f6-6cbc099cc79c%2FalexaBriefingSkill.png)
 
@@ -10,6 +10,8 @@
 ### How Alexa Apps Work
 
 To get started, it's useful to know how Alexa apps work as there's some custom terminology that you need to know about. So Alexa is the name of the voice service that powers Amazon's Echo. Alexa provides capabilities, that Amazon terms Skills, which enable people to interact with devices using their voice. A skill could be the ability to play music, set an alarm or something else. Within each skill might be multiple actions - so the ability to play music might involve the actions of play, pause, skip etc.
+
+The each skill is a program on the web, each program is basically a website that lists the questions that can be answered and makes those answered when asked. Chewy asks wikia about the Star Wars wikia (wookeepedia) but you can easily remix to work for your fav wikia.
 
 Every action a skill can perform is called an [Intent](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interaction-model-reference#intent-schema-syntax-json). It's a fitting name, because whilst there might be many ways a person could trigger that action - they might say “play X” or “I want to listen to X”, all of those requests have the same intent. So for all of the ways you can think of that someone might try to trigger the intent, you create what's known as an Utterance. The more utterances you define the better - it makes the interaction with Alexa seem more human. 
 
