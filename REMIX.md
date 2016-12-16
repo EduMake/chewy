@@ -1,4 +1,5 @@
 # Remix me
+![Chewy Logo](https://edumake.org/wp-content/uploads/2016/12/108C2.png)
 ## What You'll Need
 
 *   An [Amazon Developer Account](https://developer.amazon.com)
@@ -9,7 +10,7 @@
 ## Getting your webserver & Alexa skill up
 
 *   #### 1\. Get your own gomix server running
-Start by [remixing this example project](https://gomix.com/#!/remix/chewy/681cc882-059d-4b05-a1f6-6cbc099cc79c). 
+Start by [clicking here to remix this example project](https://gomix.com/#!/remix/chewy/a4c42aef-7c70-484b-ab24-8c344063a7c8). 
 
 You can change the project name in the top left of the editor.
 
@@ -74,6 +75,8 @@ So what we need to do here is make Alexa aware of your app, and make it accessib
 To get the real impression of using an Amazon Echo, you can use [Echosim](https://echosim.io/). If you log in with your Amazon developer account, it'll automatically know about your app. So you can go ahead and click and hold the mic button and give Alexa a test command. Say 'Ask Chewy about the Force'. Alexa should respond with the info. In your project, with the logs open, you can see the request coming in, the response being generated and sent back.
 
 ## Getting Help
+
+For more detailed setup instructions and an explaination of how it works, see `SETUP.md`.
 
 You can see other example projects on Gomix's [Community Projects](https://gomix.com/community/) page. And if you get stuck, let them know on the [forum](http://support.gomix.com/) and they can help you out.
 
