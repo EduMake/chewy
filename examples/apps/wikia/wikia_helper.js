@@ -96,7 +96,7 @@ WikiaHelper.prototype.getList = function(sSubject) {
           console.log("oItem", Item.title)
           var TitleParts =  oItem.title.split(/[\/\(\,]/);
           return TitleParts[0].trim();
-        })
+        });
       }
       return [];
     }

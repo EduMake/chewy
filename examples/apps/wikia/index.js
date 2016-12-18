@@ -115,12 +115,12 @@ app.intent('wikia_subject',
 
 app.intent('wikia_list', {
   'slots': {
-    'PAGELIST': 'LIST_OF_LISTS'
+    'WIKIALIST': 'LIST_OF_LISTS'
   },
-  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|PAGELIST}']
+  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|WIKIALIST}']
 },
   function(req, res) {
-    var sSubject = req.slot('PAGELIST');
+    var sSubject = req.slot('WIKIALIST');
     if (_.isEmpty(sSubject)) {
       res.say(Phrase.Prompt).reprompt(Phrase.Reprompt).shouldEndSession(false);
       return true;
