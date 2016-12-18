@@ -94,6 +94,7 @@ var appServer = function(config) {
 				});
 				// Configure GET requests to run a debugger UI
 				if (false !== config.debug) {
+				  var oWikiaHelper;
 					self.express.get(endpoint,function(req,res) {
 						if (typeof req.param('schema')!="undefined") {
 							res.set('Content-Type', 'text/plain').send(app.schema());
@@ -102,7 +103,7 @@ var appServer = function(config) {
 							res.set('Content-Type', 'text/plain').send(app.utterances());
 						}
 						else if (typeof req.param('pages')!="undefined") {
-						  var oWikiaHelper = app.getHelper();
+						  oWikiaHelper = app.getHelper();
               oWikiaHelper.getWords().then(function(aData) {
                 res.set('Content-Type', 'text/plain').send(aData.join("\n"));
               });
@@ -112,7 +113,7 @@ var appServer = function(config) {
 						  if (typeof req.param('target')!="undefined") {
 						    iTarget = req.param('target');
 						  }
-						  var oWikiaHelper = app.getHelper();
+						  oWikiaHelper = app.getHelper();
 						  var sIntention = req.param('intentionwords');
 						  var sWords = oWikiaHelper.getIntentionCatergories(sIntention);
 						  if(!sWords){
