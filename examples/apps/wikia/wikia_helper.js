@@ -20,12 +20,12 @@ WikiaHelper.prototype.getIntentionCatergories = function(sSubject) {
 WikiaHelper.prototype.getArticleDetails = function(sSubject) {
   return this.wikia.getArticleDetails({ids:[],titles:[sSubject]}).then(
     function(oResponse) {
-      console.log('success - Article Details received info for ' + sSubject);
+      //console.log('success - Article Details received info for ' + sSubject);
       for(var sID in oResponse.items){
         var iID = oResponse.items[sID].id;
         this.wikia.getArticleAsSimpleJson(iID).then(
           function(oResponse) {
-            console.log("oResponse", oResponse);
+            //console.log("oResponse", oResponse);
             return oResponse;
           });  
         }
@@ -43,7 +43,7 @@ WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
   
   return this.wikia.getArticleAsSimpleJson(iID).then(
     function(oResponse) {
-      console.log('success - Article As Simple Json received info for ' + iID);
+      //console.log('success - Article As Simple Json received info for ' + iID);
       //fs.writeFile("response.json", JSON.stringify(oResponse, null, 4));
       /*console.log("oResponse", oResponse.sections.map(function(oSection){
         return oSection.title ; //Object.keys(oSection);
@@ -53,7 +53,10 @@ WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
         return oPart.type == 'paragraph';
       });
       
-      var aFiltered = aParagraphs.slice(iStart, iStart + iParagraphs);
+      var aFiltered = aParagraphs.slice(iStart, iStart + iParagraphs).map(function(oPart){
+          return oPart.text;
+      });
+      //console.log("aFiltered", aFiltered)
       return aFiltered;
     });  
   };
@@ -61,7 +64,9 @@ WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
 WikiaHelper.prototype.getSearchList = function(sSubject) {
   return this.wikia.getSearchList({query:sSubject}).then(
     function(oResponse) {
-      console.log('success - Search List received info for ' + sSubject);
+      //console.log('success - Search List received info for ' + sSubject);
+      //fs.writeFile("response.json", JSON.stringify(oResponse, null, 4));
+      
       return oResponse;
     }
   );
@@ -70,7 +75,7 @@ WikiaHelper.prototype.getSearchList = function(sSubject) {
 WikiaHelper.prototype.getLucky = function(sSubject) {
   return this.wikia.getSearchList({query:sSubject}).then(
     function(oResponse) {
-      console.log('success - getLucky received info for ' + sSubject);
+      //console.log('success - getLucky received info for ' + sSubject);
       if(oResponse.total>0){
         return (oResponse.items[0].id);
       }
@@ -80,11 +85,15 @@ WikiaHelper.prototype.getLucky = function(sSubject) {
 };
 
 WikiaHelper.prototype.getList = function(sSubject) {
+  console.log("sSubject", sSubject);
   return this.wikia.getArticlesList({category:sSubject}).then(
     function(oResponse) {
       console.log('success - getList received info for ' + sSubject);
+      console.log(oResponse);
+      //fs.writeFile("response.json", JSON.stringify(oResponse, null, 4));
       if(oResponse.items.length > 0){
         return oResponse.items.map(function(oItem){
+          console.log("oItem", Item.title)
           var TitleParts =  oItem.title.split(/[\/\(\,]/);
           return TitleParts[0].trim();
         })

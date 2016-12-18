@@ -22,7 +22,7 @@ var Phrases = {
 
 app.getHelper = function(){
   return new WikiaHelper(sWikiaName, oIntentions);
-}
+};
 
 app.launch(function(req, res) {
   res.say(Phrases.Launch).reprompt(Phrases.Launch).shouldEndSession(false);
@@ -35,13 +35,14 @@ app.fetchArticle =   function(sSubject, req, res) {
       if(iID !== false){
         console.log("iID", iID);
         oWikiaHelper.getArticle(iID).then(function(aData) {
+          //console.log("getLucky aData",  aData)
           var sTitle = sSubject;
           res.card({
             "type": "Simple",
             "title": "Chewy - "+sTitle,
             "content": aData.join("\n")+'\nThis article is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported license. It uses material from the http://starwars.wikia.com/wiki/'+sTitle
           }).say(aData.join(" ")).send();
-          return true;
+          return aData.join(" ");
         }).catch(function(err) {
           console.log("err", err.statusCode);
           res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
@@ -69,7 +70,7 @@ app.intent('wikia_who',
       res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
       return true;
     } else {
-      app.fetchArticle(sSubject,req, res);
+      return app.fetchArticle(sSubject, req, res);
     }
   }
 );
@@ -88,7 +89,7 @@ app.intent('wikia_what',
       res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
       return true;
     } else {
-      app.fetchArticle(sSubject,req, res);
+      return app.fetchArticle(sSubject, req, res);
     }
   }
 );
@@ -107,28 +108,29 @@ app.intent('wikia_subject',
       res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
       return true;
     } else {
-      app.fetchArticle(sSubject,req, res);
+      return app.fetchArticle(sSubject, req, res);
     }
   }
 );
 
 app.intent('wikia_list', {
   'slots': {
-    'LIST': 'LIST_OF_LISTS'
+    'PAGELIST': 'LIST_OF_LISTS'
   },
-  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|LIST}']
+  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|PAGELIST}']
 },
   function(req, res) {
-    var sSubject = req.slot('LIST');
+    var sSubject = req.slot('PAGELIST');
     if (_.isEmpty(sSubject)) {
       res.say(Phrase.Prompt).reprompt(Phrase.Reprompt).shouldEndSession(false);
       return true;
     } else {
       var oWikiaHelper = this.getHelper();
       oWikiaHelper.getList(sSubject).then(function(aData) {
-        vat sParagraph = aData.join(", ");
+        console.log("aData", aData)
+        var sParagraph = aData.join(", ");
         res.say(sParagraph).send();
-        return true;
+        return sParagraph;
       }).catch(function(err) {
         console.log("err",err.statusCode);
         res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
