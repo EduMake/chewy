@@ -35,7 +35,8 @@ var appServer = function(config) {
 		  return fs.readdirSync(srcpath).filter(function(file) {
 			return fs.statSync(path.join(srcpath, file)).isDirectory();
 		  });
-		}
+		};
+		
 		app_directories(app_dir).forEach(function(dir) {
 			var package_json = path.join(app_dir,dir,"/package.json");
 			if (!fs.existsSync(package_json) || !fs.statSync(package_json).isFile()) { 
@@ -82,7 +83,7 @@ var appServer = function(config) {
 						.then(app.request)
 						.then(function(app_response_json) {
 							response_json = app_response_json;
-							return Promise.resolve( typeof config.postRequest=="function" ? config.postRequest(app_response_json,req,res) : app_response_json )
+							return Promise.resolve( typeof config.postRequest=="function" ? config.postRequest(app_response_json,req,res) : app_response_json );
 						})
 						.then(function(response_json_new) {
 							response_json = response_json_new || response_json;

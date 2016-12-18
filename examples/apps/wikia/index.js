@@ -127,7 +127,7 @@ app.intent('wikia_list', {
     } else {
       var oWikiaHelper = this.getHelper();
       oWikiaHelper.getList(sSubject).then(function(aData) {
-        console.log("aData", aData)
+        console.log("aData", aData);
         var sParagraph = aData.join(", ");
         res.say(sParagraph).send();
         return sParagraph;

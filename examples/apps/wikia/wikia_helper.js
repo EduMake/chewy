@@ -30,7 +30,7 @@ WikiaHelper.prototype.getArticleDetails = function(sSubject) {
           });  
         }
       }
-    )
+    );
   };
 
 WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
