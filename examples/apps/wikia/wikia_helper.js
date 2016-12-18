@@ -4,12 +4,15 @@ var Wikia = require('node-wikia');
 var fs = require("fs");
 function WikiaHelper(sWikia, oIntentions) {
   this.wikia = new Wikia(sWikia);
-  this.oIntentions = oIntentions;
+  this.oIntentions = {};
+  if(typeof oIntentions !== 'undefined'){
+    this.oIntentions = oIntentions;
+  }
 }
 
 WikiaHelper.prototype.getIntentionCatergories = function(sSubject) {
-  if(this.hasOwnProperty("oIntentions") && this.oIntentions.hasOwnProperty(sSubject) {
-    return oIntentions[sSubject]
+  if(this.hasOwnProperty("oIntentions") && this.oIntentions.hasOwnProperty(sSubject)) {
+    return this.oIntentions[sSubject];
   }
   return "";
 };
@@ -42,15 +45,16 @@ WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
     function(oResponse) {
       console.log('success - Article As Simple Json received info for ' + iID);
       //fs.writeFile("response.json", JSON.stringify(oResponse, null, 4));
-      console.log("oResponse", oResponse.sections.map(function(oSection){
+      /*console.log("oResponse", oResponse.sections.map(function(oSection){
         return oSection.title ; //Object.keys(oSection);
-      }));
+      }));*/
       var aMainContent = oResponse.sections[0].content;
       var aParagraphs = aMainContent.filter(function(oPart){
         return oPart.type == 'paragraph';
       });
-      var sParagraph = aParagraphs[0].text;
-      return sParagraph;
+      
+      var aFiltered = aParagraphs.slice(iStart, iStart + iParagraphs);
+      return aFiltered;
     });  
   };
 
@@ -79,52 +83,30 @@ WikiaHelper.prototype.getList = function(sSubject) {
   return this.wikia.getArticlesList({category:sSubject}).then(
     function(oResponse) {
       console.log('success - getList received info for ' + sSubject);
-      if(oResponse.items.length>0){
-        var sParagraph = oResponse.items.map(function(oItem){
-          return oItem.title;
-        }).slice(0, 100).join(", ");
-        return (sParagraph);
+      if(oResponse.items.length > 0){
+        return oResponse.items.map(function(oItem){
+          var TitleParts =  oItem.title.split(/[\/\(\,]/);
+          return TitleParts[0].trim();
+        })
       }
-      return false;
+      return [];
     }
   );
 };
 
 WikiaHelper.prototype.getWords = function() {
   //return this.wikia.getArticlesPopular({limit:10}).then(
-  return this.wikia.getArticlesMostViewed({limit:250}).then(
+  return this.wikia.getArticlesMostViewed({limit:100}).then(
     function(oResponse) {
       if(oResponse.items.length>0){
-        var sParagraph = oResponse.items.map(function(oItem){
-          var TitleParts =  oItem.title.split("/");
+        return oResponse.items.map(function(oItem){
+          var TitleParts =  oItem.title.replace("Star Wars:","").split(/[\/\(\,\:]/);
           return TitleParts[0].trim();
         })
         .filter(function(item, i, ar){ return ar.indexOf(item) === i; })
-        .sort().join("\n");
-        return (sParagraph);
+        .sort();
       }
-      return false;
-    }
-  );
-};
-
-WikiaHelper.prototype.getCatergoryWords = function(Catergory) {
-  //return this.wikia.getArticlesPopular({limit:200, imlimit:200, category:Catergory}).then(
-  
-  //return this.wikia.getArticlesListExpanded({limit:100, category:Catergory}).then(
-  //return this.wikia.getSearchList({limit:250, type:0, query:Catergory}).then(
-  return this.wikia.getArticlesMostViewed({limit:250, category:Catergory}).then(
-    function(oResponse) {
-      if(oResponse.items.length>0){
-        var sParagraph = oResponse.items.map(function(oItem){
-          var TitleParts =  oItem.title.split("/");
-          return TitleParts[0].trim();
-        })
-        .filter(function(item, i, ar){ return ar.indexOf(item) === i; })
-        .sort().join("\n");
-        return (sParagraph);
-      }
-      return false;
+      return [];
     }
   );
 };
@@ -139,7 +121,7 @@ WikiaHelper.prototype.getCatergoriesWords = function(Catergories, iTarget) {
   
   return Promise.all(aGets).then(function(aResponses){
     var aLists = aResponses.reduce(function(aItems, oResponse) {
-      if(oResponse.items.length>0){
+      if(oResponse.items.length > 0){
         aItems = aItems.concat(oResponse.items.map(function(oItem){
           var TitleParts =  oItem.title.split(/[\/\(\,]/);
           return TitleParts[0].trim();
@@ -148,36 +130,10 @@ WikiaHelper.prototype.getCatergoriesWords = function(Catergories, iTarget) {
       return aItems;
     },[]);
     
-    return aLists.filter(function(item, i, ar){ return ar.indexOf(item) === i; })
-        .sort().join("\n");
+    return aLists.filter(function(item, i, ar){ 
+      return ar.indexOf(item) === i; 
+    }).sort();
   });
 };
-
-/*
-WikiaHelper.prototype.getCatergoriesWords = function(Catergories) {
-  var aCatergories = Catergories.split(",");
-  var oWikia = this.wikia;
-  var aGets = aCatergories.map(function(Catergory){
-    return oWikia.getArticlesMostViewed({limit:250, category:Catergory});
-  });
-  
-  return Promise.all(aGets).then(function(aResponses){
-    console.log("aResponses.length", aResponses.length);
-    var aLists = aResponses.map(function(oResponse) {
-      if(oResponse.items.length>0){
-        var sParagraph = oResponse.items.map(function(oItem){
-          var TitleParts =  oItem.title.split(/[\/\(\,]/);
-          return TitleParts[0].trim();
-        })
-        .filter(function(item, i, ar){ return ar.indexOf(item) === i; })
-        .sort().join("\n");
-        return (sParagraph);
-      }
-      return "";
-    });
-    return aLists.join("\n");
-  });
-};
-*/
 
 module.exports = WikiaHelper;

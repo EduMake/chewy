@@ -93,7 +93,7 @@ var appServer = function(config) {
 						});
 				});
 				// Configure GET requests to run a debugger UI
-				if (false!==config.debug) {
+				if (false !== config.debug) {
 					self.express.get(endpoint,function(req,res) {
 						if (typeof req.param('schema')!="undefined") {
 							res.set('Content-Type', 'text/plain').send(app.schema());
@@ -101,26 +101,14 @@ var appServer = function(config) {
 						else if (typeof req.param('utterances')!="undefined") {
 							res.set('Content-Type', 'text/plain').send(app.utterances());
 						}
-						else if (typeof req.param('words')!="undefined") {
+						else if (typeof req.param('pages')!="undefined") {
 						  var oWikiaHelper = app.getHelper();
-              oWikiaHelper.getWords().then(function(sParagraph) {
-                //console.log("sParagraph", sParagraph);
-                res.set('Content-Type', 'text/plain').send(sParagraph);
-                //return sParagraph;
-              });
-						}
-						else if (typeof req.param('catwords')!="undefined") {
-						  var iTarget = 250;
-						  if (typeof req.param('target')!="undefined") {
-						    iTarget = req.param('target');
-						  }
-						  var oWikiaHelper = app.getHelper();
-              oWikiaHelper.getCatergoriesWords(req.param('catwords'), iTarget).then(function(sParagraph) {
-                res.set('Content-Type', 'text/plain').send(sParagraph);
+              oWikiaHelper.getWords().then(function(aData) {
+                res.set('Content-Type', 'text/plain').send(aData.join("\n"));
               });
 						}
 						else if (typeof req.param('intentionwords')!="undefined") {
-						  var iTarget = 250;
+						  var iTarget = 100;
 						  if (typeof req.param('target')!="undefined") {
 						    iTarget = req.param('target');
 						  }
@@ -130,8 +118,8 @@ var appServer = function(config) {
 						  if(!sWords){
 						    res.set('Content-Type', 'text/plain').send("");
 						  } 
-              oWikiaHelper.getCatergoriesWords(sWords, iTarget).then(function(sParagraph) {
-                res.set('Content-Type', 'text/plain').send(sParagraph);
+              oWikiaHelper.getCatergoriesWords(sWords, iTarget).then(function(aData) {
+                res.set('Content-Type', 'text/plain').send(aData.join("\n"));
               });
 						}
 						else {

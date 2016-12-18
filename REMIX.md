@@ -20,8 +20,9 @@ Open 'examples/apps/wikia/index.js' and change line 8 to be the wikia subdomain 
 var sWikiaName = 'your_fav_wikia';
 ```
 
-*   #### 3\. Make a list of popular pages on your chosen wikia to help the voice recognition out.
-Visit [https://yourprojectname.gomix.me/wikia?words](https://yourprojectname.gomix.me/wikia?words) this will print out the popular pages on your wikia and copy those into LIST_OF_PAGES.txt
+*   #### 3\. Find the Catergories of wikia article that fit the intentions.
+*   Open 'examples/apps/wikia/index.js' and change line 8 to be the wikia subdomain you want answers from.
+
 
 *   #### 4\. Make Alexa ask your questions the way you want
 In 'examples/apps/wikia/index.js' use CTRL+f and find the word 'prompt' (and 'reprompt') to find all the places we set the text for a question and change it so it makes sense for your fandom ).
@@ -50,10 +51,17 @@ So what we need to do here is make Alexa aware of your app, and make it accessib
 *   #### 2\. Interaction Model
 
     You want to specify your Intent Schema and Sample Utterances. Thankfully, this is made easy by alexa-app - there are URLs for the detail already. 
+    
+    
+    Visit [https://yourprojectname.gomix.me](https://yourprojectname.gomix.me/) this will print out the popular pages on your wikia and copy those into LIST_OF_PAGES.txt
+    
+    
+    * Start with the "Custom Slot Types"
+      * Click 'Add Slot Type' 
+      * In 'Enter Type' put 'LIST_OF_PAGES' , in 'Enter Values', copy and paste all of the values from the `LIST_OF_PAGES.txt` file in your project.
     * For Intent Schema copy and paste the output given at '[/wikia?schema](https://chewy.gomix.me/wikia?schema)'. 
     * Do the same for '[/wikia?utterances](https://chewy.gomix.me/wikia?utterances)', pasting that output into 'Sample Utterances.' 
-    * Lastly, select 'Add Slot Type' and enter 'LIST_OF_PAGES' under 'Enter Type'. 
-    * Under 'Enter Values', copy and paste all of the values from the `LIST_OF_PAGES.txt` file in your project.
+    
     
     ![Screen Shot 2016-08-23 at 21.31.07](https://hyperdev.wpengine.com/wp-content/uploads/2016/08/Screen-Shot-2016-08-23-at-21.31.07-1024x339.png)
 

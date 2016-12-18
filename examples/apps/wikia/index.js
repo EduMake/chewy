@@ -7,77 +7,130 @@ var WikiaHelper = require('./wikia_helper');
 //Which Wikia are you using????
 var sWikiaName = 'starwars';
 
+var oIntentions = {
+  "who" :"Named_creatures,Males,Females",
+  "what" : "Governments,Political_institutions,Military_units,Force-based_organizations,Organizations,Starfighters,Vehicles,Planets,Stars,Weapons",
+  "lists" : "Individuals_by_occupation,Individuals_by_species"
+};
+
 var Phrases = {
   "Launch"  :'What tell you about the war in the stars I can?',
-  "Reprompt":'What can chewie find for you?',
+  "Reprompt":'What can Chewy find for you ?',
   "Prompt"  :'I didn\'t hear that. Tell me what I can list for you.',
   "Error"   :'I could not find the droid you are looking for.'
 };
 
 app.getHelper = function(){
-  return new WikiaHelper(sWikiaName);
+  return new WikiaHelper(sWikiaName, oIntentions);
 }
 
 app.launch(function(req, res) {
   res.say(Phrases.Launch).reprompt(Phrases.Launch).shouldEndSession(false);
 });
     
-app.intent('wikia_subject', {
-  'slots': {
-    'SUBJECT': 'LIST_OF_PAGES'
+app.fetchArticle =   function(sSubject, req, res) {
+    var oWikiaHelper = this.getHelper();
+    
+    oWikiaHelper.getLucky(sSubject).then(function(iID) {
+      if(iID !== false){
+        console.log("iID", iID);
+        oWikiaHelper.getArticle(iID).then(function(aData) {
+          var sTitle = sSubject;
+          res.card({
+            "type": "Simple",
+            "title": "Chewy - "+sTitle,
+            "content": aData.join("\n")+'\nThis article is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported license. It uses material from the http://starwars.wikia.com/wiki/'+sTitle
+          }).say(aData.join(" ")).send();
+          return true;
+        }).catch(function(err) {
+          console.log("err", err.statusCode);
+          res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
+        });
+      }
+    }).catch(function(err) {
+      console.log("err",err.statusCode);
+      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
+    });
+    return false;
+  };
+
+
+app.intent('wikia_who', 
+  {
+    'slots': {
+      'WHO': 'LIST_OF_WHO'
+    },
+    'utterances': ['{who was|who is} {-|WHO}']
   },
-  'utterances': ['{|please|can you} {|tell me|tell|describe} {|who was|what was|where was|who is|what is|where is|about|a|the} {-|SUBJECT}']
-},
   function(req, res) {
-    var sSubject = req.slot('SUBJECT');
+    var sSubject = req.slot('WHO');
+    console.log('WHO', sSubject);
     if (_.isEmpty(sSubject)) {
       res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
       return true;
     } else {
-      var oWikiaHelper = new WikiaHelper(sWikiaName);
-      oWikiaHelper.getLucky(sSubject).then(function(iID) {
-        if(iID !== false){
-          oWikiaHelper.getArticle(iID).then(function(sParagraph) {
-            var sTitle = sSubject;
-            res.card({
-              "type": "Simple",
-              "title": "Chewy - "+sTitle,
-              "content": sParagraph+'\nThis article is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported license. It uses material from the http://starwars.wikia.com/wiki/'+sTitle
-            }).say(sParagraph).send();
-            
-            return sParagraph;
-          }).catch(function(err) {
-            console.log("err", err.statusCode);
-            res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
-          });
-        }
-      }).catch(function(err) {
-        console.log(err.statusCode);
-        res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
-      });
-      return false;
+      app.fetchArticle(sSubject,req, res);
+    }
+  }
+);
+
+app.intent('wikia_what', 
+  {
+    'slots': {
+      'WHAT': 'LIST_OF_WHAT'
+    },
+    'utterances': ['{what was|what is} {|a|the} {-|WHAT}']
+  },
+  function(req, res) {
+    var sSubject = req.slot('WHAT');
+    console.log('WHAT', sSubject);
+    if (_.isEmpty(sSubject)) {
+      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
+      return true;
+    } else {
+      app.fetchArticle(sSubject,req, res);
+    }
+  }
+);
+    
+app.intent('wikia_subject', 
+  {
+    'slots': {
+      'SUBJECT': 'LIST_OF_PAGES'
+    },
+    'utterances': ['{about|to describe} {|a|the} {-|SUBJECT}']
+  },
+  function(req, res) {
+    var sSubject = req.slot('SUBJECT');
+    console.log('SUBJECT', sSubject);
+    if (_.isEmpty(sSubject)) {
+      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
+      return true;
+    } else {
+      app.fetchArticle(sSubject,req, res);
     }
   }
 );
 
 app.intent('wikia_list', {
   'slots': {
-    'SUBJECT': 'LIST_OF_PAGES'
+    'LIST': 'LIST_OF_LISTS'
   },
-  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|SUBJECT}']
+  'utterances': ['{list|find|search} {|all} {|of} {|the} {-|LIST}']
 },
   function(req, res) {
-    var sSubject = req.slot('SUBJECT');
+    var sSubject = req.slot('LIST');
     if (_.isEmpty(sSubject)) {
       res.say(Phrase.Prompt).reprompt(Phrase.Reprompt).shouldEndSession(false);
       return true;
     } else {
-      var oWikiaHelper = new WikiaHelper(sWikiaName);
-      oWikiaHelper.getList(sSubject).then(function(sParagraph) {
+      var oWikiaHelper = this.getHelper();
+      oWikiaHelper.getList(sSubject).then(function(aData) {
+        vat sParagraph = aData.join(", ");
         res.say(sParagraph).send();
-        return sParagraph;
+        return true;
       }).catch(function(err) {
-        console.log(err.statusCode);
+        console.log("err",err.statusCode);
         res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
       });
       return false;
@@ -87,5 +140,5 @@ app.intent('wikia_list', {
 
 
 //hack to support custom utterances in utterance expansion string
-console.log(app.utterances().replace(/\{\-\|/g, '{'));
+//console.log(app.utterances().replace(/\{\-\|/g, '{'));
 module.exports = app;
