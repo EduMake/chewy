@@ -43,11 +43,6 @@ WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
   
   return this.wikia.getArticleAsSimpleJson(iID).then(
     function(oResponse) {
-      //console.log('success - Article As Simple Json received info for ' + iID);
-      //fs.writeFile("response.json", JSON.stringify(oResponse, null, 4));
-      /*console.log("oResponse", oResponse.sections.map(function(oSection){
-        return oSection.title ; //Object.keys(oSection);
-      }));*/
       var aMainContent = oResponse.sections[0].content;
       var aParagraphs = aMainContent.filter(function(oPart){
         return oPart.type == 'paragraph';
@@ -56,7 +51,6 @@ WikiaHelper.prototype.getArticle = function(iID, iParagraphs, iStart) {
       var aFiltered = aParagraphs.slice(iStart, iStart + iParagraphs).map(function(oPart){
           return oPart.text;
       });
-      //console.log("aFiltered", aFiltered)
       return aFiltered;
     });  
   };
@@ -85,18 +79,20 @@ WikiaHelper.prototype.getLucky = function(sSubject) {
 };
 
 WikiaHelper.prototype.getList = function(sSubject) {
-  console.log("sSubject", sSubject);
+  //console.log("sSubject", sSubject);
   return this.wikia.getArticlesList({category:sSubject}).then(
     function(oResponse) {
       console.log('success - getList received info for ' + sSubject);
-      console.log(oResponse);
+      //console.log(oResponse);
       //fs.writeFile("response.json", JSON.stringify(oResponse, null, 4));
       if(oResponse.items.length > 0){
         return oResponse.items.map(function(oItem){
-          console.log("oItem", Item.title)
+          console.log("oItem", oItem.title)
           var TitleParts =  oItem.title.split(/[\/\(\,]/);
           return TitleParts[0].trim();
-        });
+        })
+        .filter(function(item, i, ar){ return ar.indexOf(item) === i; })
+        ;
       }
       return [];
     }
@@ -107,7 +103,7 @@ WikiaHelper.prototype.getWords = function() {
   //return this.wikia.getArticlesPopular({limit:10}).then(
   return this.wikia.getArticlesMostViewed({limit:100}).then(
     function(oResponse) {
-      if(oResponse.items.length>0){
+      if(oResponse.items.length > 0){
         return oResponse.items.map(function(oItem){
           var TitleParts =  oItem.title.replace("Star Wars:","").split(/[\/\(\,\:]/);
           return TitleParts[0].trim();
