@@ -2,15 +2,16 @@
 var _ = require('lodash');
 var Alexa = require('alexa-app');
 var app = new Alexa.app('wikia');
-var WikiaHelper = require('./wikia_helper');
+var WikiaHelper = require('../../../node_modules/alexa-wikia-app-server/wikia_helper');
+//var WikiaHelper = require('./wikia_helper');
 
 //Which Wikia are you using????
 var sWikiaName = 'starwars';
 var sSkillName = "Star Wars Fandom";
-var oIntentions = {
-  "who" :"Named_creatures,Males,Females",
-  "what" : "Governments,Political_institutions,Military_units,Force-based_organizations,Organizations,Starfighters,Vehicles,Planets,Stars,Weapons",
-  "lists" : "Individuals_by_occupation,Individuals_by_species"
+var oListWikiaCatergories = {
+  "LIST_OF_WHO" :"Named_creatures,Males,Females",
+  "LIST_OF_WHAT" : "Governments,Political_institutions,Military_units,Force-based_organizations,Organizations,Starfighters,Vehicles,Planets,Stars,Weapons",
+  "LIST_OF_LISTS" : "Individuals_by_occupation,Individuals_by_species"
 };
 
 var Phrases = {
@@ -25,7 +26,7 @@ var Phrases = {
 };
 
 app.getHelper = function(){
-  return new WikiaHelper(sWikiaName, oIntentions);
+  return new WikiaHelper(sWikiaName, oListWikiaCatergories);
 };
 
 app.launch(function(req, res) {
@@ -145,8 +146,8 @@ app.intent('wikia_subject',
 
 app.intent('wikia_list', {
   'slots': {
-    //'WIKIALIST': 'LIST_OF_LISTS'
-    'WIKIALIST': 'LIST_OF_PAGES'
+    'WIKIALIST': 'LIST_OF_LISTS'
+    //'WIKIALIST': 'LIST_OF_PAGES'
   },
   'utterances': ['{list|find|search} {|all} {|of} {|the} {-|WIKIALIST}']
 },

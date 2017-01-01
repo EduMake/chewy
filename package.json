@@ -1,13 +1,12 @@
 {
-	"name": "chewy",
-	"version": "0.0.1",
+	"name": "chewy-server",
+	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
 	"scripts": {
 		"start": "node examples/server"
 	},
-	"author": "Matt Kruse",
+	"author": "Martyn Eggleton",
 	"dependencies": {
-		"alexa-wikia-app-server": "^2.3.1"
+		"alexa-wikia-app-server": "^2.3.2"
 	}
 }

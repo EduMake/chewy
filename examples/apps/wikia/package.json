@@ -9,9 +9,9 @@
 	"author": "Martyn Eggleton",
 	"license": "ISC",
 	"dependencies": {
+		"alexa-app": "^2.3.2",
 		"lodash": "^4.3.0",
 		"request-promise": "^2.0.0",
-		"node-wikia": "^0.0.3",
-		"alexa-app": "^2.3.4"
+		"node-wikia": "^0.0.3"
 	}
 }

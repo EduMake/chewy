@@ -1,11 +1,11 @@
 var AlexaAppServer = require("alexa-wikia-app-server");
 
 AlexaAppServer.start({
-  server_root:__dirname,     // Path to root
-  public_html:"/public_html", // Static content
-  app_dir:"/apps",            // Where alexa-app modules are stored
-  app_root:"/",        // Service root
-  verify: true,
+	server_root:__dirname,     // Path to root
+	public_html:"/public_html", // Static content
+	app_dir:"/apps",            // Where alexa-app modules are stored
+	app_root:"/",        // Service root
+	verify: true,
 	port:process.env.PORT
 	
 	// Use preRequest to load user data on each request and add it to the request json.
@@ -16,8 +16,7 @@ AlexaAppServer.start({
 	}
 	// Add a dummy attribute to the response
 	,postRequest: function(json,req,res) {
-	  //console.log("postRequest set");
+		//console.log("postRequest set");
 		//json.dummy = "text";
 	}
- }
-);
+});
