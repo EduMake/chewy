@@ -1,4 +1,4 @@
-var AlexaAppServer = require("../index.js");
+var AlexaAppServer = require("alexa-wikia-app-server");
 
 AlexaAppServer.start({
   server_root:__dirname,     // Path to root
