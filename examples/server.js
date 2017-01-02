@@ -5,7 +5,7 @@ AlexaAppServer.start({
 	public_html:"/public_html", // Static content
 	app_dir:"/apps",            // Where alexa-app modules are stored
 	app_root:"/",        // Service root
-	verify: true,
+	//verify: true,
 	port:process.env.PORT
 	
 	// Use preRequest to load user data on each request and add it to the request json.
