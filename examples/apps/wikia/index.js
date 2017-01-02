@@ -26,8 +26,8 @@ var Phrases = {
   "NotHeard"  :'What is it?  I suggest you try it again Luke.',
   "NotFound"  :'We could not find the droid you are looking for? I suggest you try it again Luke.',
   "NoList"    :'Your sad devotion to that ancient religion has not helped you conjure up the stolen data tapes. I suggest you try it again Luke.',
-  "Reprompt"  :'I suggest you try it again Luke.'
-  
+  "Reprompt"  :'I suggest you try it again Luke.',
+  "TakingTooLong":'Ahsoka! Come on, hurry!'
 };
 
 
@@ -43,12 +43,12 @@ app.error = function(exception, request, response) {
 };
 
 app.launch(function(req, res) {
-  res.say(Phrases.Launch).shouldEndSession(false).send();
+  res.say(Phrases.Launch).reprompt(Phrases.TakingTooLong).shouldEndSession(false).send();
 });
 
 app.intent("AMAZON.HelpIntent",
   function(req, res) {
-    res.say(Phrases.Help).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
+    res.say(Phrases.Help).reprompt(Phrases.TakingTooLong).shouldEndSession(false).send();
   }
 );
 
