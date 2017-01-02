@@ -95,7 +95,7 @@ app.fetchArticle =   function(sSlot, req, res) {
           res.reprompt(Phrases.NotFound).shouldEndSession(false).send();
         }
       }).catch(function(err) {
-        console.log("err", err.statusCode);
+        console.log("err", err);
         if(err.exception.type == "NotFoundApiException"){
           res.reprompt(Phrases.NotFound).shouldEndSession(false).send();
         } else {
@@ -154,33 +154,41 @@ app.intent('wikia_list', {
   'utterances': ['{list|find|search} {|all} {|of} {|the} {-|WIKIALIST}']
 },
   function(req, res) {
-    var sSubject = req.slot('WIKIALIST');
+    var sSubject = "";
+    try {
+      sSubject = req.slot('WIKIALIST');
+    } catch(err) {
+      console.log("err", err);
+      res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+      return true;
+    }
     
     if (_.isEmpty(sSubject)) {
-      res.reprompt(Phrases.NoList).shouldEndSession(false);
+      res.reprompt(Phrases.NotHeard).shouldEndSession(false);
       return true;
-    } else {
-      var oWikiaHelper = app.getHelper();
-      return oWikiaHelper.getList(sSubject).then(function(aData) {
-        //console.log("aData", aData);
-        if(aData.length > 0){
-          var sParagraph = aData.join(", ");
-          console.log("sParagraph", sParagraph);
-          res.say(sParagraph).send();
-          return sParagraph;
-        } else {
-          res.reprompt(Phrases.NoList).shouldEndSession(false).send();
-        }
-      }).catch(function(err) {
-        console.log("err in getList",err);
-        if(err.exception.type == "NotFoundApiException"){
-          res.reprompt(Phrases.NoList).shouldEndSession(false).send();
-        } else {
-          res.say(Phrases.Error).shouldEndSession(false).send();
-        }
-      });
-      
-    }
+    } 
+    
+    var oWikiaHelper = app.getHelper();
+    oWikiaHelper.getList(sSubject).then(function(aData) {
+      //console.log("aData", aData);
+      if(aData.length > 0){
+        var sParagraph = aData.join(", ");
+        console.log("sParagraph", sParagraph);
+        res.say(sParagraph).send();
+        return sParagraph;
+      } else {
+        res.reprompt(Phrases.NoList).shouldEndSession(false).send();
+      }
+    }).catch(function(err) {
+      console.log("err in getList",err);
+      if(err.exception.type == "NotFoundApiException"){
+        console.log("NoList");
+        res.reprompt(Phrases.NoList).shouldEndSession(false).send();
+      } else {
+        console.log("Error");
+        res.say(Phrases.Error).shouldEndSession(false).send();
+      }
+    });
     return false;
   }
   
