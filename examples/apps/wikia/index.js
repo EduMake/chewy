@@ -12,8 +12,8 @@ var sSkillName = "Star Wars Fandom";
 
 // What wikia Catergories to use to build the word lists for the speech model
 var oListWikiaCatergories = {
-  "LIST_OF_WHO" :   "Named_creatures,Males,Females",
-  "LIST_OF_WHAT" :  "Governments,Political_institutions,Military_units,Force-based_organizations,Organizations,Starfighters,Vehicles,Planets,Stars,Weapons",
+  "LIST_OF_WHO"   : "Named_creatures,Males,Females",
+  "LIST_OF_WHAT"  : "Governments,Political_institutions,Military_units,Force-based_organizations,Organizations,Starfighters,Vehicles,Planets,Stars,Weapons",
   "LIST_OF_LISTS" : "Individuals_by_occupation,Individuals_by_species,Starships_by_type"
 };
 
@@ -22,74 +22,93 @@ var Phrases = {
   "Launch"    :'What tell you about the war in the stars I can?',
   "Help"      :'We can answer questions about Star Wars. Ask "who was", or "what is", or to "list" a catergory of things.',
   "Stop"      :'May the Force be with you.',
-  "Error"     :"Uh, we had a slight weapons malfunction, but uh... everything's perfectly all right now.",
-  
-  "Reprompt"  :'We could not find the droid you are looking for?',
-  //"Prompt"  :'I didn\'t understand that. Please do again there is no try.',
-  "Prompt"    :'Please do again, there is no try.',
-  "ListPrompt":'We didn\'t find that. Tell me what I can list for you.',
-  //It’s not my fault... But something went wrong. Please do again there is no try. ",
-  
+  "Error"     :"Uh, we had a slight weapons malfunction, but uh... everything's perfectly all right now. I suggest you try it again, Luke.",
+  "NotHeard"  :'What is it?  I suggest you try it again, Luke.',
+  "NotFound"  :'We could not find the droid you are looking for? I suggest you try it again, Luke.',
+  "NoList"    :'Your sad devotion to that ancient religion has not helped you conjure up the stolen data tapes. I suggest you try it again, Luke.'
 };
+
+
+var sLicence = 'This article is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported license. It uses material from the http://'+sWikiaName+'.wikia.com/wiki/'
 
 app.getHelper = function(){
   return new WikiaHelper(sWikiaName, oListWikiaCatergories);
 };
 
+app.messages.GENERIC_ERROR = Phrases.Error;
 app.error = function(exception, request, response) {
-    response.say(Phrases.Error);
+  response.say(Phrases.Error);
 };
 
 app.launch(function(req, res) {
-  res.say(Phrases.Launch).reprompt(Phrases.Launch).shouldEndSession(false);
+  res.say(Phrases.Launch).shouldEndSession(false).send();
 });
 
-app.intent("AMAZON.HelpIntent",{
-//      'utterances': ['help', "what can you do"]
-},
+app.intent("AMAZON.HelpIntent",
   function(req, res) {
-      res.say(Phrases.Help).shouldEndSession(false).send();
-      return false;
+    res.say(Phrases.Help).shouldEndSession(false).send();
   }
 );
 
 app.intent("AMAZON.StopIntent",
   function(req, res) {
-      res.say(Phrases.Stop);
-  });
+    res.say(Phrases.Stop);
+});
 
 app.intent("AMAZON.CancelIntent",
   function(req, res) {
-      res.say(Phrases.Stop);
-  });
+    res.say(Phrases.Stop);
+});
 
-app.fetchArticle =   function(sSubject, req, res) {
-    var oWikiaHelper = this.getHelper();
-    
-    oWikiaHelper.getLucky(sSubject).then(function(iID) {
-      if(iID !== false){
-        console.log("iID", iID);
-        oWikiaHelper.getArticle(iID).then(function(aData) {
-          //console.log("getLucky aData",  aData)
+app.fetchArticle =   function(sSlot, req, res) {
+  var sSubject = "";
+  try {
+    sSubject = req.slot(sSlot)
+  } catch(err) {
+    console.log("err", err);
+    res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+    return true;
+  }
+   
+  if (_.isEmpty(sSubject)) {
+    res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+    return true;
+  } 
+  
+  console.log(sSlot, sSubject);
+  var oWikiaHelper = this.getHelper();
+  
+  oWikiaHelper.getLucky(sSubject).then(function(iID) {
+    if(iID !== false){
+      console.log("iID", iID);
+      oWikiaHelper.getArticle(iID).then(function(aData) {
+        if(aData.length > 0 ){
           var sTitle = sSubject;
           //https://www.npmjs.com/package/alexa-app#card-examples
           res.card({
             "type": "Simple",
             "title": sSkillName + " - "+sTitle,
-            "content": aData.join("\n")+'\nThis article is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported license. It uses material from the http://'+sWikiaName+'.wikia.com/wiki/'+sTitle
+            "content": aData.join("\n")+'\n'+sLicence+sTitle
           }).say(aData.join(" ")).send();
           return aData.join(" ");
-        }).catch(function(err) {
-          console.log("err", err.statusCode);
-          res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
-        });
-      }
-    }).catch(function(err) {
-      console.log("err",err.statusCode);
-      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
-    });
-    return false;
-  };
+        } else {
+          res.reprompt(Phrases.NotFound).shouldEndSession(false).send();
+        }
+      }).catch(function(err) {
+        console.log("err", err.statusCode);
+        if(err.exception.type == "NotFoundApiException"){
+          res.reprompt(Phrases.NotFound).shouldEndSession(false).send();
+        } else {
+          res.reprompt(Phrases.Error).shouldEndSession(false).send();
+        }
+      });
+    }
+  }).catch(function(err) {
+    console.log("err",err.statusCode);
+    res.reprompt(Phrases.Error).shouldEndSession(false).send();
+  });
+  return false;
+};
 
 app.intent('wikia_who', 
   {
@@ -99,14 +118,7 @@ app.intent('wikia_who',
     'utterances': ['{who was|who is} {-|WHO}']
   },
   function(req, res) {
-    var sSubject = req.slot('WHO');
-    console.log('WHO', sSubject);
-    if (_.isEmpty(sSubject)) {
-      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
-      return true;
-    } else {
-      return app.fetchArticle(sSubject, req, res);
-    }
+    return app.fetchArticle("WHO", req, res);
   }
 );
 
@@ -118,14 +130,7 @@ app.intent('wikia_what',
     'utterances': ['{what was|what is} {|a|the} {-|WHAT}']
   },
   function(req, res) {
-    var sSubject = req.slot('WHAT');
-    console.log('WHAT', sSubject);
-    if (_.isEmpty(sSubject)) {
-      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
-      return true;
-    } else {
-      return app.fetchArticle(sSubject, req, res);
-    }
+    return app.fetchArticle("WHAT", req, res);
   }
 );
     
@@ -137,14 +142,7 @@ app.intent('wikia_subject',
     'utterances': ['{|tell me|describe} {|a|the} {-|SUBJECT}']
   },
   function(req, res) {
-    var sSubject = req.slot('SUBJECT');
-    console.log('SUBJECT', sSubject);
-    if (_.isEmpty(sSubject)) {
-      res.say(Phrases.Prompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
-      return true;
-    } else {
-      return app.fetchArticle(sSubject, req, res);
-    }
+    return app.fetchArticle("SUBJECT", req, res);
   }
 );
 
@@ -159,7 +157,7 @@ app.intent('wikia_list', {
     var sSubject = req.slot('WIKIALIST');
     
     if (_.isEmpty(sSubject)) {
-      res.say(Phrases.ListPrompt).reprompt(Phrases.Reprompt).shouldEndSession(false);
+      res.reprompt(Phrases.NoList).shouldEndSession(false);
       return true;
     } else {
       var oWikiaHelper = app.getHelper();
@@ -171,15 +169,15 @@ app.intent('wikia_list', {
           res.say(sParagraph).send();
           return sParagraph;
         } else {
-          res.say(Phrases.ListPrompt).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
+          res.reprompt(Phrases.NoList).shouldEndSession(false).send();
         }
       }).catch(function(err) {
         console.log("err in getList",err);
         if(err.exception.type == "NotFoundApiException"){
-          res.say(Phrases.ListPrompt).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
+          res.reprompt(Phrases.NoList).shouldEndSession(false).send();
+        } else {
+          res.say(Phrases.Error).shouldEndSession(false).send();
         }
-        
-        res.say(Phrases.Error).shouldEndSession(false).send();
       });
       
     }
