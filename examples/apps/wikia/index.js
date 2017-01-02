@@ -20,12 +20,14 @@ var oListWikiaCatergories = {
 // What Alexa will say in certain situations
 var Phrases = {
   "Launch"    :'What tell you about the war in the stars I can?',
-  "Help"      :'We can answer questions about Star Wars. Ask "who was", or "what is", or to "list" a catergory of things.',
+  "Help"      :'We can answer questions about Star Wars. Ask "who was", or "what is", or to "list" a catergory of things. What tell you about the war in the stars I can?',
   "Stop"      :'May the Force be with you.',
-  "Error"     :"Uh, we had a slight weapons malfunction, but uh... everything's perfectly all right now. I suggest you try it again, Luke.",
-  "NotHeard"  :'What is it?  I suggest you try it again, Luke.',
-  "NotFound"  :'We could not find the droid you are looking for? I suggest you try it again, Luke.',
-  "NoList"    :'Your sad devotion to that ancient religion has not helped you conjure up the stolen data tapes. I suggest you try it again, Luke.'
+  "Error"     :"Uh, we had a slight weapons malfunction, but uh... everything's perfectly all right now. I suggest you try it again Luke.",
+  "NotHeard"  :'What is it?  I suggest you try it again Luke.',
+  "NotFound"  :'We could not find the droid you are looking for? I suggest you try it again Luke.',
+  "NoList"    :'Your sad devotion to that ancient religion has not helped you conjure up the stolen data tapes. I suggest you try it again Luke.',
+  "Reprompt"  :'I suggest you try it again Luke.'
+  
 };
 
 
@@ -46,7 +48,7 @@ app.launch(function(req, res) {
 
 app.intent("AMAZON.HelpIntent",
   function(req, res) {
-    res.say(Phrases.Help).shouldEndSession(false).send();
+    res.say(Phrases.Help).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
   }
 );
 
@@ -66,12 +68,12 @@ app.fetchArticle =   function(sSlot, req, res) {
     sSubject = req.slot(sSlot)
   } catch(err) {
     console.log("err", err);
-    res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+    res.say(Phrases.NotHeard).reprompt(Phrases.Reprompt).shouldEndSession(false);
     return true;
   }
    
   if (_.isEmpty(sSubject)) {
-    res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+    res.say(Phrases.NotHeard).reprompt(Phrases.Reprompt).shouldEndSession(false);
     return true;
   } 
   
@@ -92,20 +94,20 @@ app.fetchArticle =   function(sSlot, req, res) {
           }).say(aData.join(" ")).send();
           return aData.join(" ");
         } else {
-          res.reprompt(Phrases.NotFound).shouldEndSession(false).send();
+          res.say(Phrases.NotFound).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
         }
       }).catch(function(err) {
         console.log("err", err);
         if(err.exception.type == "NotFoundApiException"){
-          res.reprompt(Phrases.NotFound).shouldEndSession(false).send();
+          res.say(Phrases.NotFound).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
         } else {
-          res.reprompt(Phrases.Error).shouldEndSession(false).send();
+          res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
         }
       });
     }
   }).catch(function(err) {
     console.log("err",err.statusCode);
-    res.reprompt(Phrases.Error).shouldEndSession(false).send();
+    res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
   });
   return false;
 };
@@ -159,12 +161,12 @@ app.intent('wikia_list', {
       sSubject = req.slot('WIKIALIST');
     } catch(err) {
       console.log("err", err);
-      res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+      res.say(Phrases.NotHeard).reprompt(Phrases.Reprompt).shouldEndSession(false);
       return true;
     }
     
     if (_.isEmpty(sSubject)) {
-      res.reprompt(Phrases.NotHeard).shouldEndSession(false);
+      res.say(Phrases.NotHeard).reprompt(Phrases.Reprompt).shouldEndSession(false);
       return true;
     } 
     
@@ -177,16 +179,16 @@ app.intent('wikia_list', {
         res.say(sParagraph).send();
         return sParagraph;
       } else {
-        res.reprompt(Phrases.NoList).shouldEndSession(false).send();
+        res.say(Phrases.NoList).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
       }
     }).catch(function(err) {
       console.log("err in getList",err);
       if(err.exception.type == "NotFoundApiException"){
         console.log("NoList");
-        res.reprompt(Phrases.NoList).shouldEndSession(false).send();
+        res.say(Phrases.NoList).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
       } else {
         console.log("Error");
-        res.say(Phrases.Error).shouldEndSession(false).send();
+        res.say(Phrases.Error).reprompt(Phrases.Reprompt).shouldEndSession(false).send();
       }
     });
     return false;

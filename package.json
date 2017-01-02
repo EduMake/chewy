@@ -7,6 +7,6 @@
 	},
 	"author": "Martyn Eggleton",
 	"dependencies": {
-		"alexa-wikia-app-server": "^2.3.3"
+		"alexa-wikia-app-server": "^2.3.4"
 	}
 }
