@@ -10,34 +10,50 @@
 ## Getting your webserver & Alexa skill up
 
 *   #### 1\. Get your own gomix server running
-Start by [clicking here to remix this example project](https://gomix.com/#!/remix/chewy/a4c42aef-7c70-484b-ab24-8c344063a7c8). 
 
-You can change the project name in the top left of the editor.
+    Start by [clicking here to remix this example project](https://gomix.com/#!/remix/chewy/a4c42aef-7c70-484b-ab24-8c344063a7c8). 
+
+    You can change the project name in the top left of the editor.
 
 *   #### 2\. Choose a Wikia
-Open 'examples/apps/wikia/index.js' and change line 8 to be the wikia subdomain you want answers from.
+
+    Open 'examples/apps/wikia/index.js' and change line 8 to be the wikia subdomain you want answers from.
 ```javascript
 var sWikiaName = 'your_fav_wikia';
 ```
 
-*   #### 3\. Make a list of popular pages on your chosen wikia to help the voice recognition out.
-Visit [https://yourprojectname.gomix.me/wikia?words](https://yourprojectname.gomix.me/wikia?words) this will print out the popular pages on your wikia and copy those into LIST_OF_PAGES.txt
+*   #### 3\. Choose a skill name
 
-*   #### 4\. Make Alexa ask your questions the way you want
-In 'examples/apps/wikia/index.js' use CTRL+f and find the word 'prompt' (and 'reprompt') to find all the places we set the text for a question and change it so it makes sense for your fandom ).
-
+    Open 'examples/apps/wikia/index.js' and change line 11 to be the name you will use in the "Amazon Alexa Skill" setup, it can be changed after you have tested it but it does need to match if you try to get Amazon to Appove your Skill for publication.
+    
+    Originally we chose a character from the films, 'Chewy', but there are Amazon rules if you want to publish the skill. You need to use at least 2 words if you don't own the trademark on the word and you need to indicate that the skill is not official by using a word like fandon, fan, or unofficial.
 ```javascript
-var prompt = 'I didn\'t hear that. Tell me what I can find for you.';
+var sSkillName = "My thing Fandom";
+```
+
+*   #### 4\. Find the Catergories of wikia article that fit the intentions.
+
+    The Star Wars wikia doesn't have just one catergory that covers all the characters (for "Who was" type questions), things or lists, so we need to check what should be in all the lists listed around line 14
+```javascript
+var oListWikiaCatergories = {
+  "LIST_OF_WHO" :"Named_creatures,Males,Females",
+```
+
+*   #### 5\. Make Alexa ask your questions the way you want
+
+    On line 21 change the phrases so it makes sense for your fandom.
+```javascript
+var Phrases = {
+  "Launch"    :'What tell you about the war in the stars I can?',
 ```
 
 *   #### 5\. Test your server
 
-You can check all your logic and data links are working and giving sensible answers by visiting [/wikia](https://chewy.gomix.me/wikia).
-
-* Select "Type" "LaunchRequest" and click "Send" to see your server's response to you saying "Alexa open Chewy".
-* Select "Type" "IntentRequest" and "Intent" "wikia_subject". 
-* This opens a box labelled "SUBJECT".
-* Enter "Yoda" and click "Send" to see the result of saying "Alexa ask Chewy who was Yoda?"
+    You can check all your logic and data links are working and giving sensible answers by clicking "Show Live" and then "Test the Alexa Wikia Skill using a web form").
+    * Select "Type" "LaunchRequest" and click "Send" to see your server's response to you saying "Alexa open Chewy".
+    * Select "Type" "IntentRequest" and "Intent" "wikia_subject". 
+    * This opens a box labelled "SUBJECT".
+    * Enter "Yoda" and click "Send" to see the result of saying "Alexa ask Chewy who was Yoda?"
 
 ## Set Up Your Alexa App
 
@@ -45,15 +61,19 @@ So what we need to do here is make Alexa aware of your app, and make it accessib
 
 *   #### 1\. Skill Information
 
-    Select the 'Custom Interaction Model' option for 'Skill Type'. Give your app a name (we chose a character from the films ; 'Chewy') and choose an invocation name - this is the name you say to Alexa to activate your skill, so 'Alexa ask Chewy…'.
+    Select the 'Custom Interaction Model' option for 'Skill Type'. Give your app a name, probably what you put in "Choose a skill name" and choose an invocation name - this is the name you say to Alexa to activate your skill, so 'Alexa ask Chewy' or Alexa ask Star Wars Fandom…' etc.
     
 *   #### 2\. Interaction Model
 
     You want to specify your Intent Schema and Sample Utterances. Thankfully, this is made easy by alexa-app - there are URLs for the detail already. 
-    * For Intent Schema copy and paste the output given at '[/wikia?schema](https://chewy.gomix.me/wikia?schema)'. 
+    
+    On the test page (clicking "Show Live" and then "Test the Alexa Wikia Skill using a web form"). There are links which gives data to copy into the config. Especially at the bottom where they print out the popular pages on your wikia and copy those into slots. 
+    
+    * Start with the "Custom Slot Types"
+      * Click 'Add Slot Type' 
+      * In 'Enter Type' put 'LIST_OF_PAGES' , in 'Enter Values', copy and paste all of the values from the `LIST_OF_PAGES` link in your test page.
+    * For Intent Schema copy and paste the output given at the Shecma link '[/wikia?schema](https://chewy.gomix.me/wikia?schema)'. 
     * Do the same for '[/wikia?utterances](https://chewy.gomix.me/wikia?utterances)', pasting that output into 'Sample Utterances.' 
-    * Lastly, select 'Add Slot Type' and enter 'LIST_OF_PAGES' under 'Enter Type'. 
-    * Under 'Enter Values', copy and paste all of the values from the `LIST_OF_PAGES.txt` file in your project.
     
     ![Screen Shot 2016-08-23 at 21.31.07](https://hyperdev.wpengine.com/wp-content/uploads/2016/08/Screen-Shot-2016-08-23-at-21.31.07-1024x339.png)
 
